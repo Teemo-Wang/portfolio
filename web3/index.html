@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaX Web3 Exchange Demo</title>
+    <meta name="description" content="NovaX web3 exchange landing demo" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="risk-bar">
+      <span class="info-icon">i</span>
+      Demo notice: this prototype is for UI exploration only and does not provide real trading services.
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="NovaX Home">
+        <span class="brand-mark">N</span>
+        <span>NovaX</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#buy">Buy Crypto</a>
+        <a href="#trade">Trade</a>
+        <a href="#markets">Markets</a>
+        <a href="#futures">Futures</a>
+        <a href="#bots">Bots</a>
+        <a href="#copy">Copy Trading</a>
+        <a href="#earn">Wealth</a>
+        <a href="#rewards">Rewards Hub</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" aria-label="Search">Search</button>
+        <button class="ghost-button">Log in</button>
+        <button class="primary-button">Sign up</button>
+        <button class="icon-button" aria-label="Language">EN</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section" id="trade">
+        <video class="hero-video is-active" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="./video/2/hero-background.mp4" type="video/mp4" />
+        </video>
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="./KV2_batch.mp4" type="video/mp4" />
+        </video>
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+          <source src="./KV3_batch.mp4" type="video/mp4" />
+        </video>
+
+        <div class="hero-copy">
+          <h1>Trade on Signal</h1>
+
+          <form class="signup-card" aria-label="Register">
+            <div class="signup-row">
+              <input id="email" type="email" placeholder="Enter Phone Number/Email" />
+              <button type="submit">Sign Up Now</button>
+            </div>
+          </form>
+
+          <div class="gift-line">
+            <span class="gift-icon">+</span>
+            Sign up now to claim a <strong>9,800 USDT</strong> welcome gift
+          </div>
+        </div>
+
+        <div class="carousel-dots" aria-label="Hero carousel controls">
+          <button class="active" type="button" aria-label="Show hero slide 1"></button>
+          <button type="button" aria-label="Show hero slide 2"></button>
+          <button type="button" aria-label="Show hero slide 3"></button>
+        </div>
+      </section>
+
+      <section class="section-shell product-section" aria-label="Core products">
+        <div class="module-title module-title-centered">
+          <h2>Explore Our Products<span>.</span></h2>
+        </div>
+
+        <div class="product-grid">
+        <article class="product-card hot">
+          <img class="product-gif" src="./video/2.gif" alt="" aria-hidden="true" />
+          <h2>Futures</h2>
+          <p>View more</p>
+        </article>
+        <article class="product-card">
+          <img class="product-gif" src="./video/4.gif" alt="" aria-hidden="true" />
+          <h2>Copy Trading</h2>
+          <p>View more</p>
+        </article>
+        <article class="product-card">
+          <img class="product-gif" src="./video/3.gif" alt="" aria-hidden="true" />
+          <h2>Earn</h2>
+          <p>View more</p>
+        </article>
+        <article class="product-card">
+          <img class="product-gif" src="./video/1.gif" alt="" aria-hidden="true" />
+          <h2>Web3 Wallet</h2>
+          <p>View more</p>
+        </article>
+        </div>
+      </section>
+
+      <section class="section-shell market-section" id="markets">
+        <div class="module-title module-title-centered">
+          <p class="eyebrow">Markets</p>
+          <h2>Popular markets</h2>
+        </div>
+
+        <div class="module-actions">
+          <div class="market-tabs" role="tablist" aria-label="Market tabs">
+            <button class="is-active" type="button" data-market="hot">Hot</button>
+            <button type="button" data-market="gainers">Gainers</button>
+            <button type="button" data-market="new">New</button>
+          </div>
+        </div>
+
+        <div class="market-table" aria-live="polite">
+          <div class="table-head">
+            <span>Pair</span>
+            <span>Last Price</span>
+            <span>24h Change</span>
+            <span>Volume</span>
+            <span></span>
+          </div>
+          <div class="market-row">
+            <span><b>BTC</b>/USDT</span>
+            <span>$64,182.90</span>
+            <span class="positive">+2.41%</span>
+            <span>$2.48B</span>
+            <button>Trade</button>
+          </div>
+          <div class="market-row">
+            <span><b>ETH</b>/USDT</span>
+            <span>$3,184.12</span>
+            <span class="positive">+1.88%</span>
+            <span>$1.06B</span>
+            <button>Trade</button>
+          </div>
+          <div class="market-row">
+            <span><b>SOL</b>/USDT</span>
+            <span>$142.64</span>
+            <span class="positive">+4.76%</span>
+            <span>$748M</span>
+            <button>Trade</button>
+          </div>
+          <div class="market-row">
+            <span><b>TON</b>/USDT</span>
+            <span>$5.42</span>
+            <span class="negative">-0.62%</span>
+            <span>$128M</span>
+            <button>Trade</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell copy-section" id="copy">
+        <div class="module-title module-title-centered">
+          <p class="eyebrow">Copy Trading</p>
+          <h2>Follow strategies without reading every candle</h2>
+        </div>
+
+        <div class="split-section">
+        <div class="split-copy">
+          <p>Clear ROI, drawdown, risk levels, and follow actions help new users understand strategy value quickly.</p>
+          <button class="primary-button">Explore traders</button>
+        </div>
+
+        <div class="leaderboard">
+          <article>
+            <span class="rank">#1</span>
+            <div>
+              <strong>AlphaPulse</strong>
+              <p>30D ROI <b>+68.4%</b></p>
+            </div>
+            <button>Copy</button>
+          </article>
+          <article>
+            <span class="rank">#2</span>
+            <div>
+              <strong>DeltaGrid</strong>
+              <p>Max drawdown <b>8.1%</b></p>
+            </div>
+            <button>Copy</button>
+          </article>
+          <article>
+            <span class="rank">#3</span>
+            <div>
+              <strong>StableRay</strong>
+              <p>Followers <b>18,240</b></p>
+            </div>
+            <button>Copy</button>
+          </article>
+        </div>
+        </div>
+      </section>
+
+      <section class="section-shell earn-section" id="earn">
+        <div class="module-title module-title-centered">
+          <p class="eyebrow">Earn</p>
+          <h2>Put idle assets to work</h2>
+        </div>
+
+        <div class="module-actions">
+          <button class="ghost-button">View all products</button>
+        </div>
+
+        <div class="earn-grid">
+          <article>
+            <span>Flexible</span>
+            <strong>USDT Savings</strong>
+            <p>Est. APR</p>
+            <b>6.80%</b>
+          </article>
+          <article>
+            <span>Launchpool</span>
+            <strong>Stake BTC</strong>
+            <p>Reward token</p>
+            <b>NOVA</b>
+          </article>
+          <article>
+            <span>Structured</span>
+            <strong>Dual Investment</strong>
+            <p>Target APY</p>
+            <b>32.5%</b>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell faq-section" id="academy">
+        <div class="module-title module-title-centered">
+          <p class="eyebrow">Academy</p>
+          <h2>New user questions</h2>
+        </div>
+
+        <div class="faq-list">
+          <button class="faq-item is-open" type="button">
+            <span>What interactions does this demo reference?</span>
+            <p>It references common exchange homepage patterns: top navigation, registration entry points, market tabs, copy trading rankings, and Earn product cards.</p>
+          </button>
+          <button class="faq-item" type="button">
+            <span>Can this become a real product?</span>
+            <p>Yes. It can be extended with React or Vue, live market APIs, wallet connection, KYC flows, and multilingual configuration.</p>
+          </button>
+          <button class="faq-item" type="button">
+            <span>Does it include real trading features?</span>
+            <p>No. This is a static product prototype for validating visual direction, information architecture, and conversion flows.</p>
+          </button>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <section class="footer-directory" aria-label="Footer navigation">
+          <div class="footer-brand">
+            <a class="footer-logo" href="#" aria-label="NovaX Home">NovaX</a>
+            <div class="social-grid" aria-label="Social links">
+              <a href="#" aria-label="X">X</a>
+              <a href="#" aria-label="Telegram">T</a>
+              <a href="#" aria-label="Discord">D</a>
+              <a href="#" aria-label="Facebook">f</a>
+              <a href="#" aria-label="Instagram">IG</a>
+              <a href="#" aria-label="LinkedIn">in</a>
+              <a href="#" aria-label="Medium">M</a>
+              <a href="#" aria-label="More">...</a>
+            </div>
+            <p>Copyright 2026 NovaX Demo. All rights reserved.</p>
+          </div>
+
+          <div class="footer-column">
+            <h3>Services</h3>
+            <a href="#">Download App</a>
+            <a href="#">Trading Fees</a>
+            <a href="#">News</a>
+            <a href="#">Listing FastTrack</a>
+            <a href="#">P2P Merchant Application</a>
+            <a href="#">Signal Trading</a>
+            <a href="#">TradingView</a>
+          </div>
+
+          <div class="footer-column">
+            <h3>User Support</h3>
+            <a href="#">Beginner's Guide</a>
+            <a href="#">Help Center</a>
+            <a href="#">Feedback</a>
+            <a href="#">Law Enforcement Request</a>
+            <a href="#">API Documentation</a>
+            <a href="#">NovaX Broker Program</a>
+            <a href="#">NovaX Verify</a>
+            <a href="#">VIP Benefits</a>
+          </div>
+
+          <div class="footer-column">
+            <h3>Company</h3>
+            <a href="#">About Us</a>
+            <a href="#">Join Us</a>
+            <a href="#">NovaX Labs</a>
+            <a href="#">NovaX Affiliate Program</a>
+            <a href="#">NovaX Shield Fund</a>
+            <a href="#">100% Proof of Reserves</a>
+            <a href="#">Announcement Center</a>
+            <a href="#">NovaX Blog</a>
+          </div>
+
+          <div class="footer-column">
+            <h3>Terms</h3>
+            <a href="#">Client Agreement</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Risk Disclosure</a>
+          </div>
+        </section>
+
+        <section class="risk-warning" aria-label="Risk warning">
+          <h3>Risk Warning</h3>
+          <p>
+            Cryptocurrencies and their derivatives are innovative financial products with great volatility and high
+            investment risks. Although NovaX is committed to providing users with easy-to-use trading tools, trading
+            itself is still a highly sophisticated field. Trading digital assets and their derivatives are subject to
+            high market risk and price volatility and may result in partial or total loss of account funds.
+          </p>
+          <p>
+            Trading by copying or replicating the trades of other traders involves a high level of risks, even when
+            copying or replicating top-performing traders. Past performance is not a reliable indicator of future
+            performance. Content on this demo platform is for product exploration only and does not contain financial
+            advice or recommendations.
+          </p>
+        </section>
+      </footer>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

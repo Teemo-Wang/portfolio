@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teemo Portfolio Demo</title>
+    <meta
+      name="description"
+      content="Teemo Wang personal portfolio with selected projects, work experience and moving visual gallery."
+    />
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const hasReturnScroll = sessionStorage.getItem("teemo-detail-return-scroll") !== null;
+
+        if (params.get("check") === "2" && hasReturnScroll) {
+          document.documentElement.classList.add("is-restoring-detail-scroll");
+          document.documentElement.style.scrollBehavior = "auto";
+        }
+
+        if ("scrollRestoration" in window.history) {
+          window.history.scrollRestoration = "manual";
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-scanlight" aria-hidden="true">
+      <span class="scanlight-beam scanlight-beam-a"></span>
+      <span class="scanlight-beam scanlight-beam-b"></span>
+    </div>
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+    <div class="ambient ambient-bottom"></div>
+
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#home" aria-label="Teemo home">
+          <img src="./sucai/Logo.png" alt="TEEMO" />
+        </a>
+        <nav class="site-nav">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#work">Project Works</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a class="header-chip" href="#contact">AVAILABLE NOW</a>
+      </header>
+
+      <main>
+        <section class="hero reveal" id="home">
+          <video class="hero-video" autoplay muted loop playsinline aria-hidden="true" poster="./sucai/hero-bg.png">
+            <source src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
+          </video>
+          <div class="hero-mark">
+            <p class="eyebrow">Portfolio 2026</p>
+            <div class="hero-signature">
+              <img class="hero-signature-image" src="./sucai/title.png" alt="Portfolio By Teemo Wang" />
+            </div>
+          </div>
+
+          <div class="hero-copy">
+            <p class="hero-kicker">UI / Visual / Growth Marketing Design</p>
+            <h1>
+              <span class="hero-title-main">Teemo</span>
+              <span class="hero-title-sub">Visual Designer</span>
+            </h1>
+            <p class="hero-text">UI design, brand image, IP creation and launch visuals for growth-driven products.</p>
+          </div>
+
+          <div class="hero-contact glass-card">
+            <div class="contact-pill">
+              <span class="contact-icon" aria-hidden="true">
+                <img src="./sucai/icon/E-mail.png" alt="" />
+              </span>
+              <strong>teeemowang@gmail.com</strong>
+            </div>
+            <div class="contact-pill">
+              <span class="contact-icon" aria-hidden="true">
+                <img src="./sucai/icon/tel.png" alt="" />
+              </span>
+              <strong>+86 151 3886 3889</strong>
+            </div>
+            <div class="contact-pill">
+              <span class="contact-icon" aria-hidden="true">
+                <img src="./sucai/icon/wechat.png" alt="" />
+              </span>
+              <strong>15138863889</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="about reveal" id="about">
+          <div class="about-grid">
+            <article class="about-photo-stage glass-card">
+              <div class="photo-orbit photo-orbit-back"></div>
+              <div class="photo-orbit photo-orbit-front"></div>
+              <div class="profile-card profile-card-inline">
+                <div class="profile-photo"></div>
+              </div>
+            </article>
+
+            <article class="intro-card glass-card">
+              <h3 class="about-title">
+                <img class="about-title-image" src="./sucai/about me.png" alt="About Me" />
+              </h3>
+              <p>
+                3 years of cross-border growth marketing design experience, from UI systems to IP visuals and launch
+                assets.
+              </p>
+              <div class="about-stats">
+                <article>
+                  <strong>3+</strong>
+                  <span>Years in growth design</span>
+                </article>
+                <article>
+                  <strong>0-1</strong>
+                  <span>Project building participation</span>
+                </article>
+                <article>
+                  <strong>Multi</strong>
+                  <span>Markets and user segments</span>
+                </article>
+              </div>
+              <div class="contact-card">
+                <div class="contact-row">
+                  <span>Email</span>
+                  <strong>teeemowang@gmail.com</strong>
+                </div>
+                <div class="contact-row">
+                  <span>Phone</span>
+                  <strong>+86 151 3886 3889</strong>
+                </div>
+                <div class="contact-row">
+                  <span>Focus</span>
+                  <strong>UI / IP / Marketing</strong>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section class="experience reveal" id="experience">
+          <div class="experience-stage">
+            <div class="experience-stack" aria-hidden="true">
+              <article class="stack-card layer-a">
+                <div class="stack-thumb"></div>
+                <div class="stack-copy">
+                  <strong>HELLO</strong>
+                  <span>Visual Designer</span>
+                </div>
+                <div class="stack-meta">
+                  <span>Timeline</span>
+                  <strong>2025.11 - Now</strong>
+                </div>
+                <div class="stack-bars">
+                  <i></i>
+                  <i></i>
+                </div>
+              </article>
+              <article class="stack-card layer-b">
+                <div class="stack-thumb"></div>
+                <div class="stack-copy">
+                  <strong>WORK</strong>
+                  <span>Brand / UI / Growth</span>
+                </div>
+                <div class="stack-meta">
+                  <span>Status</span>
+                  <strong>Expanded on View</strong>
+                </div>
+                <div class="stack-bars">
+                  <i></i>
+                  <i></i>
+                </div>
+              </article>
+              <article class="stack-card layer-c">
+                <div class="stack-thumb"></div>
+                <div class="stack-copy">
+                  <strong>CARDS</strong>
+                  <span>Experience Preview</span>
+                </div>
+                <div class="stack-meta">
+                  <span>Mode</span>
+                  <strong>Floating Stack</strong>
+                </div>
+                <div class="stack-bars">
+                  <i></i>
+                  <i></i>
+                </div>
+              </article>
+            </div>
+
+            <div class="experience-grid">
+              <article class="experience-card is-accent">
+                <span class="experience-index">01</span>
+                <h3>SHEIN</h3>
+                <p>Campaign systems and launch visuals.</p>
+              </article>
+              <article class="experience-card">
+                <span class="experience-index">02</span>
+                <h3>Brand Studio</h3>
+                <p>Identity, landing pages and visual packaging.</p>
+              </article>
+              <article class="experience-card">
+                <span class="experience-index">03</span>
+                <h3>Commercial Lab</h3>
+                <p>Commercial content for conversion and retention.</p>
+              </article>
+              <article class="experience-card">
+                <span class="experience-index">04</span>
+                <h3>Visual System</h3>
+                <p>Reusable campaign layouts and update systems.</p>
+              </article>
+              <article class="experience-card">
+                <span class="experience-index">05</span>
+                <h3>AI Design</h3>
+                <p>Prompt-led concept exploration and image direction.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="works reveal" id="work">
+          <div class="section-headline section-headline-split section-headline-image">
+            <div class="section-title">
+              <p class="eyebrow">02 / Project Works</p>
+              <h2>
+                <img class="section-title-image" src="./sucai/project works.png" alt="Project Works" />
+              </h2>
+            </div>
+          </div>
+
+          <div class="work-list">
+            <article class="work-item work-feature glass-card">
+              <button class="work-row" type="button" aria-expanded="false">
+                <span class="work-index">01</span>
+                <span class="work-name">Web 3</span>
+                <span class="work-type">Webpage / Animation Effect / 3D</span>
+                <span class="work-arrow" aria-hidden="true"></span>
+              </button>
+              <div class="work-drawer">
+                <div class="work-kv work-kv-carousel" data-kv-carousel aria-label="Web 3 key visual carousel">
+                  <div class="work-kv-panel work-kv-panel-center work-kv-main work-kv-video" data-kv-panel data-detail-url="./work-detail.html?case=web3-kv1">
+                    <video autoplay muted loop playsinline aria-label="Web 3 project key visual 1">
+                      <source src="./sucai/video/KV1.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-right work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=web3-kv2">
+                    <img src="./sucai/video/KV2.png" alt="Web 3 project key visual 2" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-left work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=web3-kv3">
+                    <img src="./sucai/video/KV3.png" alt="Web 3 project key visual 3" />
+                  </div>
+                  <button class="work-kv-nav work-kv-prev" type="button" aria-label="Previous Web 3 key visual"></button>
+                  <button class="work-kv-nav work-kv-next" type="button" aria-label="Next Web 3 key visual"></button>
+                </div>
+                <div class="work-detail">
+                  <p>Built a Web3 launch page system with hero narrative, visual hierarchy, and modular sections for fast campaign iteration.</p>
+                  <div class="work-tags">
+                    <span>Landing Page</span>
+                    <span>Product Visual</span>
+                    <span>Growth Assets</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="work-item work-feature glass-card">
+              <button class="work-row" type="button" aria-expanded="false">
+                <span class="work-index">02</span>
+                <span class="work-name">Brand Marketing</span>
+                <span class="work-type">Brand / IP</span>
+                <span class="work-arrow" aria-hidden="true"></span>
+              </button>
+              <div class="work-drawer">
+                <div class="work-kv work-kv-carousel" data-kv-carousel aria-label="Brand Marketing key visual carousel">
+                  <div class="work-kv-panel work-kv-panel-center work-kv-main work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv1">
+                    <img src="./sucai/video/part2/KV1.png" alt="Brand Marketing key visual 1" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-right work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv2">
+                    <img src="./sucai/video/part2/KV2.png" alt="Brand Marketing key visual 2" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-hidden work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv3">
+                    <img src="./sucai/video/part2/KV1.png" alt="Brand Marketing key visual 3" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-left work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv4">
+                    <img src="./sucai/video/part2/KV2.png" alt="Brand Marketing key visual 4" />
+                  </div>
+                  <button class="work-kv-nav work-kv-prev" type="button" aria-label="Previous Brand Marketing key visual"></button>
+                  <button class="work-kv-nav work-kv-next" type="button" aria-label="Next Brand Marketing key visual"></button>
+                </div>
+                <div class="work-detail">
+                  <p>Designed campaign pages and social visuals that translate brand tone into reusable commercial templates.</p>
+                  <div class="work-tags">
+                    <span>Brand System</span>
+                    <span>Campaign Design</span>
+                    <span>Social Visual</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="work-item work-feature glass-card">
+              <button class="work-row" type="button" aria-expanded="false">
+                <span class="work-index">03</span>
+                <span class="work-name">AI Design</span>
+                <span class="work-type">AI Workflow Demonstration</span>
+                <span class="work-arrow" aria-hidden="true"></span>
+              </button>
+              <div class="work-drawer">
+                <div class="work-kv work-kv-carousel" data-kv-carousel aria-label="AI Design key visual carousel">
+                  <div class="work-kv-panel work-kv-panel-center work-kv-main work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=ai-kv1">
+                    <img src="./sucai/KV/KV3/1.png" alt="AI Design key visual 1" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-right work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=ai-kv2">
+                    <img src="./sucai/video/Part3/KV2.png" alt="AI Design key visual 2" />
+                  </div>
+                  <div class="work-kv-panel work-kv-panel-left work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=ai-kv3">
+                    <img src="./sucai/video/Part3/KV1.png" alt="AI Design key visual 3" />
+                  </div>
+                  <button class="work-kv-nav work-kv-prev" type="button" aria-label="Previous AI Design key visual"></button>
+                  <button class="work-kv-nav work-kv-next" type="button" aria-label="Next AI Design key visual"></button>
+                </div>
+                <div class="work-detail">
+                  <p>Explored AI-assisted concept design to speed up style exploration, mood validation and visual storytelling.</p>
+                  <div class="work-tags">
+                    <span>AI Concept</span>
+                    <span>Prompt Design</span>
+                    <span>Art Direction</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="gallery reveal" id="gallery">
+          <div class="section-headline section-headline-split section-headline-image">
+            <div class="section-title">
+              <p class="eyebrow">03 / Visual Exploration</p>
+              <h2>
+                <img class="section-title-image" src="./sucai/other Desings.png" alt="Other Designs" />
+              </h2>
+            </div>
+          </div>
+
+          <div class="gallery-mask">
+            <div class="gallery-scrollboard">
+              <div class="gallery-column gallery-column-a">
+                <div class="gallery-stack">
+                  <article class="masonry-card tall"><img src="./sucai/liuguang.png" alt="Baseball girl visual exploration" /><span>BASEBALL GIRL</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/video/part2/KV1.png" alt="Fashion campaign visual" /><span>FASHION SNAP</span></article>
+                  <article class="masonry-card square"><img src="./sucai/image 1.png" alt="New year IP visual" /><span>NEW YEAR IP</span></article>
+                </div>
+                <div class="gallery-stack" aria-hidden="true">
+                  <article class="masonry-card tall"><img src="./sucai/liuguang.png" alt="" /><span>BASEBALL GIRL</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/video/part2/KV1.png" alt="" /><span>FASHION SNAP</span></article>
+                  <article class="masonry-card square"><img src="./sucai/image 1.png" alt="" /><span>NEW YEAR IP</span></article>
+                </div>
+              </div>
+
+              <div class="gallery-column gallery-column-b">
+                <div class="gallery-stack">
+                  <article class="masonry-card mid"><img src="./sucai/video/part2/KV2.png" alt="Fashion landing visual" /><span>FASHION SNAP</span></article>
+                  <article class="masonry-card square"><img src="./sucai/video/KV4.png" alt="Launch key visual" /><span>LAUNCH KV</span></article>
+                  <article class="masonry-card tall"><img src="./sucai/liuguang2.png" alt="Fantasy queen visual exploration" /><span>FANTASY QUEEN</span></article>
+                </div>
+                <div class="gallery-stack" aria-hidden="true">
+                  <article class="masonry-card mid"><img src="./sucai/video/part2/KV2.png" alt="" /><span>FASHION SNAP</span></article>
+                  <article class="masonry-card square"><img src="./sucai/video/KV4.png" alt="" /><span>LAUNCH KV</span></article>
+                  <article class="masonry-card tall"><img src="./sucai/liuguang2.png" alt="" /><span>FANTASY QUEEN</span></article>
+                </div>
+              </div>
+
+              <div class="gallery-column gallery-column-c">
+                <div class="gallery-stack">
+                  <article class="masonry-card tall"><img src="./sucai/video/Part3/KV1.png" alt="AI portrait visual" /><span>AI PORTRAIT</span></article>
+                  <article class="masonry-card wide"><img src="./sucai/video/KV3.png" alt="Poster system visual" /><span>POSTER SYSTEM</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/liuguang.png" alt="Baseball cut visual" /><span>BASEBALL CUT</span></article>
+                </div>
+                <div class="gallery-stack" aria-hidden="true">
+                  <article class="masonry-card tall"><img src="./sucai/video/Part3/KV1.png" alt="" /><span>AI PORTRAIT</span></article>
+                  <article class="masonry-card wide"><img src="./sucai/video/KV3.png" alt="" /><span>POSTER SYSTEM</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/liuguang.png" alt="" /><span>BASEBALL CUT</span></article>
+                </div>
+              </div>
+
+              <div class="gallery-column gallery-column-d">
+                <div class="gallery-stack">
+                  <article class="masonry-card tall"><img src="./sucai/video/Part3/KV2.png" alt="Photo frame concept visual" /><span>PHOTO FRAME</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/video/mask.png" alt="HDR visual shot" /><span>HDR SHOT</span></article>
+                  <article class="masonry-card square"><img src="./sucai/liuguang2.png" alt="Fantasy queen crop" /><span>FANTASY QUEEN</span></article>
+                </div>
+                <div class="gallery-stack" aria-hidden="true">
+                  <article class="masonry-card tall"><img src="./sucai/video/Part3/KV2.png" alt="" /><span>PHOTO FRAME</span></article>
+                  <article class="masonry-card mid"><img src="./sucai/video/mask.png" alt="" /><span>HDR SHOT</span></article>
+                  <article class="masonry-card square"><img src="./sucai/liuguang2.png" alt="" /><span>FANTASY QUEEN</span></article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="contact reveal" id="contact">
+          <div class="contact-top">
+            <p class="eyebrow">04 / Thank You</p>
+            <h2 class="thank-title">
+              <img class="thank-title-image" src="./sucai/Thank you.png" alt="Thank You" />
+            </h2>
+          </div>
+
+          <div class="contact-grid">
+            <article class="contact-tile glass-card">
+              <span class="tile-icon" aria-hidden="true">
+                <img src="./sucai/icon/E-mail.png" alt="" />
+              </span>
+              <h3>Email</h3>
+              <p>teeemowang@gmail.com</p>
+            </article>
+            <article class="contact-tile glass-card">
+              <span class="tile-icon" aria-hidden="true">
+                <img src="./sucai/icon/tel.png" alt="" />
+              </span>
+              <h3>Phone</h3>
+              <p>+86 151 3886 3889</p>
+            </article>
+            <article class="contact-tile glass-card">
+              <span class="tile-icon" aria-hidden="true">
+                <img src="./sucai/icon/wechat.png" alt="" />
+              </span>
+              <h3>WeChat</h3>
+              <p>15138863889</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

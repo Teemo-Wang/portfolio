@@ -1,0 +1,449 @@
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+const detailReturnScrollKey = "teemo-detail-return-scroll";
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.16 }
+);
+
+document.querySelectorAll(".reveal").forEach((element) => {
+  revealObserver.observe(element);
+});
+
+const siteNav = document.querySelector(".site-nav");
+const navLinks = siteNav ? [...siteNav.querySelectorAll("a[href^='#']")] : [];
+const navSections = navLinks
+  .map((link) => {
+    const section = document.querySelector(link.getAttribute("href"));
+    return section ? { link, section } : null;
+  })
+  .filter(Boolean);
+
+if (siteNav && navSections.length) {
+  let activeNavLink = null;
+  let navTicking = false;
+
+  const moveNavIndicator = (link) => {
+    const navRect = siteNav.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    const width = Math.min(Math.max(linkRect.width * 0.46, 28), 42);
+    const x = linkRect.left - navRect.left + (linkRect.width - width) / 2;
+
+    siteNav.style.setProperty("--nav-indicator-x", `${x}px`);
+    siteNav.style.setProperty("--nav-indicator-width", `${width}px`);
+  };
+
+  const setActiveNav = (link) => {
+    if (activeNavLink === link) {
+      moveNavIndicator(link);
+      return;
+    }
+
+    activeNavLink = link;
+    navLinks.forEach((entry) => {
+      entry.classList.toggle("is-active", entry === link);
+    });
+    moveNavIndicator(link);
+  };
+
+  const updateActiveNav = () => {
+    const marker = Math.min(window.innerHeight * 0.38, 360);
+    const current =
+      navSections
+        .filter(({ section }) => section.getBoundingClientRect().top <= marker)
+        .pop() || navSections[0];
+
+    setActiveNav(current.link);
+    navTicking = false;
+  };
+
+  const requestNavUpdate = () => {
+    if (navTicking) {
+      return;
+    }
+
+    navTicking = true;
+    window.requestAnimationFrame(updateActiveNav);
+  };
+
+  const updateFromHash = () => {
+    const hashSection = navSections.find(({ link }) => link.getAttribute("href") === window.location.hash);
+
+    if (hashSection) {
+      setActiveNav(hashSection.link);
+    }
+
+    window.setTimeout(requestNavUpdate, 160);
+    window.setTimeout(requestNavUpdate, 520);
+  };
+
+  window.addEventListener("scroll", requestNavUpdate, { passive: true });
+  window.addEventListener("resize", requestNavUpdate);
+  window.addEventListener("hashchange", updateFromHash);
+  window.addEventListener("load", updateFromHash);
+  updateFromHash();
+}
+
+const workItems = [...document.querySelectorAll(".work-item")];
+
+workItems.forEach((item) => {
+  const trigger = item.querySelector(".work-row");
+
+  const toggleWorkItem = () => {
+    const isActive = item.classList.contains("is-active");
+
+    workItems.forEach((entry) => {
+      entry.classList.remove("is-active");
+      entry.querySelector(".work-row").setAttribute("aria-expanded", "false");
+    });
+
+    if (!isActive) {
+      item.classList.add("is-active");
+      trigger.setAttribute("aria-expanded", "true");
+    }
+
+    document.dispatchEvent(new CustomEvent("workStateChange"));
+  };
+
+  trigger.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleWorkItem();
+  });
+
+  item.addEventListener("click", () => {
+    if (item.classList.contains("is-active")) {
+      return;
+    }
+
+    toggleWorkItem();
+  });
+});
+
+const returnParams = new URLSearchParams(window.location.search);
+const returnCase = returnParams.get("case");
+const storedReturnScroll = sessionStorage.getItem(detailReturnScrollKey);
+const returnScroll = storedReturnScroll === null ? NaN : Number(storedReturnScroll);
+const shouldRestoreDetailReturn = returnParams.get("check") === "2" && Number.isFinite(returnScroll);
+const activeReturnCase = shouldRestoreDetailReturn ? returnCase : null;
+
+if (shouldRestoreDetailReturn && workItems[0]) {
+  const returnPanel = activeReturnCase
+    ? [...document.querySelectorAll("[data-kv-panel]")].find((panel) => {
+        return panel.dataset.detailUrl && panel.dataset.detailUrl.includes(`case=${activeReturnCase}`);
+      })
+    : null;
+  const returnWorkItem = returnPanel ? returnPanel.closest(".work-item") : workItems[0];
+  const returnWorkTrigger = returnWorkItem.querySelector(".work-row");
+
+  workItems.forEach((entry) => {
+    entry.classList.remove("is-active");
+    entry.querySelector(".work-row").setAttribute("aria-expanded", "false");
+  });
+
+  returnWorkItem.classList.add("is-active");
+
+  if (returnWorkTrigger) {
+    returnWorkTrigger.setAttribute("aria-expanded", "true");
+  }
+
+  const restoreScroll = () => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo({ top: returnScroll, left: 0, behavior: "auto" });
+  };
+
+  restoreScroll();
+  window.requestAnimationFrame(restoreScroll);
+  window.setTimeout(restoreScroll, 80);
+  window.setTimeout(() => {
+    sessionStorage.removeItem(detailReturnScrollKey);
+    document.documentElement.classList.remove("is-restoring-detail-scroll");
+    document.documentElement.style.scrollBehavior = "";
+  }, 120);
+}
+
+document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
+  const panels = [...carousel.querySelectorAll("[data-kv-panel]")];
+  const workItem = carousel.closest(".work-item");
+  const prevButton = carousel.querySelector(".work-kv-prev");
+  const nextButton = carousel.querySelector(".work-kv-next");
+  let index = activeReturnCase
+    ? panels.findIndex((panel) => panel.dataset.detailUrl && panel.dataset.detailUrl.includes(`case=${activeReturnCase}`))
+    : 0;
+
+  if (index < 0) {
+    index = 0;
+  }
+
+  if (panels.length < 3) {
+    return;
+  }
+
+  const render = () => {
+    const isExpanded = workItem && workItem.classList.contains("is-active");
+
+    panels.forEach((panel, panelIndex) => {
+      const offset = (panelIndex - index + panels.length) % panels.length;
+      const isCenter = offset === 0;
+      const video = panel.querySelector("video");
+
+      panel.classList.toggle("work-kv-panel-center", offset === 0);
+      panel.classList.toggle("work-kv-panel-right", offset === 1);
+      panel.classList.toggle("work-kv-panel-left", offset === panels.length - 1);
+      panel.classList.toggle("work-kv-panel-hidden", offset > 1 && offset < panels.length - 1);
+
+      if (!video) {
+        return;
+      }
+
+      if (isExpanded && isCenter) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  };
+
+  const next = () => {
+    if (!workItem || !workItem.classList.contains("is-active")) {
+      render();
+      return;
+    }
+
+    index = (index + 1) % panels.length;
+    render();
+  };
+
+  const prev = () => {
+    if (!workItem || !workItem.classList.contains("is-active")) {
+      render();
+      return;
+    }
+
+    index = (index - 1 + panels.length) % panels.length;
+    render();
+  };
+
+  panels.forEach((panel) => {
+    const openDetail = (event) => {
+      if (!workItem || !workItem.classList.contains("is-active")) {
+        return;
+      }
+
+      if (!panel.classList.contains("work-kv-panel-center")) {
+        return;
+      }
+
+      const detailUrl = panel.dataset.detailUrl;
+
+      if (!detailUrl) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      sessionStorage.setItem(detailReturnScrollKey, String(window.scrollY));
+      window.location.href = detailUrl;
+    };
+
+    panel.addEventListener("click", openDetail);
+    panel.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      openDetail(event);
+    });
+  });
+
+  carousel.addEventListener("click", (event) => {
+    const clickedPanel = event.target.closest("[data-kv-panel]");
+
+    if (clickedPanel && workItem && workItem.classList.contains("is-active")) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (clickedPanel.classList.contains("work-kv-panel-left")) {
+        prev();
+        return;
+      }
+
+      if (clickedPanel.classList.contains("work-kv-panel-right")) {
+        next();
+        return;
+      }
+
+      if (clickedPanel.classList.contains("work-kv-panel-center") && clickedPanel.dataset.detailUrl) {
+        sessionStorage.setItem(detailReturnScrollKey, String(window.scrollY));
+        window.location.href = clickedPanel.dataset.detailUrl;
+        return;
+      }
+    }
+
+    event.stopPropagation();
+    next();
+  });
+
+  if (prevButton) {
+    prevButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      prev();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      next();
+    });
+  }
+
+  document.addEventListener("workStateChange", render);
+  window.setInterval(next, 6000);
+  render();
+});
+
+const carousels = [...document.querySelectorAll("[data-carousel]")];
+
+carousels.forEach((carousel) => {
+  const track = carousel.querySelector(".carousel-track");
+  const slides = [...carousel.querySelectorAll(".carousel-slide")];
+  const prev = carousel.querySelector(".carousel-prev");
+  const next = carousel.querySelector(".carousel-next");
+  let index = 0;
+
+  const render = () => {
+    track.style.transform = `translateX(-${index * 100}%)`;
+  };
+
+  prev.addEventListener("click", (event) => {
+    event.stopPropagation();
+    index = (index - 1 + slides.length) % slides.length;
+    render();
+  });
+
+  next.addEventListener("click", (event) => {
+    event.stopPropagation();
+    index = (index + 1) % slides.length;
+    render();
+  });
+});
+
+const experienceStage = document.querySelector(".experience-stage");
+
+if (experienceStage) {
+  const experienceCards = [...experienceStage.querySelectorAll(".experience-card")];
+  let scattered = false;
+  let transitionTimer;
+
+  const focusExperienceCard = (card) => {
+    experienceStage.classList.add("is-hovering");
+    experienceCards.forEach((entry) => {
+      entry.classList.remove("is-focused");
+      resetExperienceParallax(entry);
+    });
+    card.classList.add("is-focused");
+  };
+
+  const clearExperienceFocus = () => {
+    experienceStage.classList.remove("is-hovering");
+    experienceCards.forEach((card) => {
+      card.classList.remove("is-focused");
+      resetExperienceParallax(card);
+    });
+  };
+
+  function resetExperienceParallax(card) {
+    card.style.setProperty("--card-tilt-x", "0deg");
+    card.style.setProperty("--card-tilt-y", "0deg");
+    card.style.setProperty("--card-shift-x", "0px");
+    card.style.setProperty("--card-shift-y", "0px");
+  }
+
+  const updateExperienceParallax = (card, event) => {
+    if (!card.classList.contains("is-focused")) {
+      return;
+    }
+
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    const tiltY = x * 12;
+    const tiltX = -y * 10;
+    const shiftX = x * 12;
+    const shiftY = y * 10;
+
+    card.style.setProperty("--card-tilt-x", `${tiltX.toFixed(2)}deg`);
+    card.style.setProperty("--card-tilt-y", `${tiltY.toFixed(2)}deg`);
+    card.style.setProperty("--card-shift-x", `${shiftX.toFixed(2)}px`);
+    card.style.setProperty("--card-shift-y", `${shiftY.toFixed(2)}px`);
+  };
+
+  const setScattered = (nextState) => {
+    if (scattered === nextState) {
+      return;
+    }
+
+    scattered = nextState;
+    experienceStage.classList.add("is-transitioning");
+    experienceStage.classList.toggle("is-scattered", scattered);
+    window.clearTimeout(transitionTimer);
+    transitionTimer = window.setTimeout(() => {
+      experienceStage.classList.remove("is-transitioning");
+    }, 820);
+  };
+
+  const updateExperienceState = () => {
+    const rect = experienceStage.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const enterPoint = viewportHeight * 0.72;
+    const spreadOnPoint = viewportHeight * 0.44;
+    const spreadOffPoint = viewportHeight * 0.54;
+    const isVisibleZone = rect.top < enterPoint && rect.bottom > viewportHeight * 0.18;
+
+    experienceStage.classList.toggle("is-visible-zone", isVisibleZone);
+
+    if (isVisibleZone && !scattered && rect.top < spreadOnPoint) {
+      setScattered(true);
+    } else if ((!isVisibleZone && scattered) || (scattered && rect.top > spreadOffPoint)) {
+      setScattered(false);
+    }
+
+    if (!isVisibleZone) {
+      clearExperienceFocus();
+    }
+  };
+
+  updateExperienceState();
+  window.addEventListener("scroll", updateExperienceState, { passive: true });
+  window.addEventListener("resize", updateExperienceState);
+
+  experienceCards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      if (!experienceStage.classList.contains("is-scattered")) {
+        return;
+      }
+      focusExperienceCard(card);
+    });
+
+    card.addEventListener("mousemove", (event) => {
+      updateExperienceParallax(card, event);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      clearExperienceFocus();
+    });
+  });
+}
