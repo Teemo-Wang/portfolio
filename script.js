@@ -345,8 +345,18 @@ const experienceStage = document.querySelector(".experience-stage");
 
 if (experienceStage) {
   const experienceCards = [...experienceStage.querySelectorAll(".experience-card")];
+  const companyDetailModal = document.createElement("div");
+  const companyDetailImage = document.createElement("img");
   let scattered = false;
   let transitionTimer;
+  let activeCompanyCard = null;
+  let parallaxFrame = null;
+
+  companyDetailModal.className = "company-detail-modal";
+  companyDetailModal.setAttribute("aria-hidden", "true");
+  companyDetailImage.alt = "";
+  companyDetailModal.append(companyDetailImage);
+  document.body.append(companyDetailModal);
 
   const focusExperienceCard = (card) => {
     experienceStage.classList.add("is-hovering");
@@ -358,6 +368,10 @@ if (experienceStage) {
   };
 
   const clearExperienceFocus = () => {
+    if (companyDetailModal.classList.contains("is-open")) {
+      return;
+    }
+
     experienceStage.classList.remove("is-hovering");
     experienceCards.forEach((card) => {
       card.classList.remove("is-focused");
@@ -373,22 +387,25 @@ if (experienceStage) {
   }
 
   const updateExperienceParallax = (card, event) => {
-    if (!card.classList.contains("is-focused")) {
+    if (!card.classList.contains("is-focused") || companyDetailModal.classList.contains("is-open")) {
       return;
     }
 
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-    const tiltY = x * 12;
-    const tiltX = -y * 10;
-    const shiftX = x * 12;
-    const shiftY = y * 10;
+    const tiltY = x * 7;
+    const tiltX = -y * 6;
+    const shiftX = x * 6;
+    const shiftY = y * 5;
 
-    card.style.setProperty("--card-tilt-x", `${tiltX.toFixed(2)}deg`);
-    card.style.setProperty("--card-tilt-y", `${tiltY.toFixed(2)}deg`);
-    card.style.setProperty("--card-shift-x", `${shiftX.toFixed(2)}px`);
-    card.style.setProperty("--card-shift-y", `${shiftY.toFixed(2)}px`);
+    window.cancelAnimationFrame(parallaxFrame);
+    parallaxFrame = window.requestAnimationFrame(() => {
+      card.style.setProperty("--card-tilt-x", `${tiltX.toFixed(2)}deg`);
+      card.style.setProperty("--card-tilt-y", `${tiltY.toFixed(2)}deg`);
+      card.style.setProperty("--card-shift-x", `${shiftX.toFixed(2)}px`);
+      card.style.setProperty("--card-shift-y", `${shiftY.toFixed(2)}px`);
+    });
   };
 
   const setScattered = (nextState) => {
@@ -430,7 +447,45 @@ if (experienceStage) {
   window.addEventListener("scroll", updateExperienceState, { passive: true });
   window.addEventListener("resize", updateExperienceState);
 
-  experienceCards.forEach((card) => {
+  const closeCompanyDetail = () => {
+    companyDetailModal.classList.remove("is-open");
+    companyDetailModal.setAttribute("aria-hidden", "true");
+
+    if (activeCompanyCard) {
+      activeCompanyCard.classList.remove("is-modal-source");
+      activeCompanyCard = null;
+    }
+
+    clearExperienceFocus();
+  };
+
+  companyDetailModal.addEventListener("click", closeCompanyDetail);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && companyDetailModal.classList.contains("is-open")) {
+      closeCompanyDetail();
+    }
+  });
+
+  experienceCards.forEach((card, index) => {
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", `Open company detail ${index + 1}`);
+
+    const openCompanyDetail = () => {
+      if (!experienceStage.classList.contains("is-scattered")) {
+        setScattered(true);
+      }
+
+      activeCompanyCard = card;
+      focusExperienceCard(card);
+      card.classList.add("is-modal-source");
+      companyDetailImage.src = `./sucai/公司/公司二级页/${index + 1}.png`;
+      companyDetailImage.alt = `Company detail ${index + 1}`;
+      companyDetailModal.classList.add("is-open");
+      companyDetailModal.setAttribute("aria-hidden", "false");
+    };
+
     card.addEventListener("mouseenter", () => {
       if (!experienceStage.classList.contains("is-scattered")) {
         return;
@@ -438,12 +493,23 @@ if (experienceStage) {
       focusExperienceCard(card);
     });
 
+    card.addEventListener("mouseleave", () => {
+      clearExperienceFocus();
+    });
+
     card.addEventListener("mousemove", (event) => {
       updateExperienceParallax(card, event);
     });
 
-    card.addEventListener("mouseleave", () => {
-      clearExperienceFocus();
+    card.addEventListener("click", openCompanyDetail);
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openCompanyDetail();
     });
   });
 }

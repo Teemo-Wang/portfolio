@@ -1084,6 +1084,7 @@ button {
   transform-style: preserve-3d;
   transition: transform 0.78s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.4s ease, filter 0.4s ease;
   will-change: transform;
+  cursor: pointer;
 }
 
 .experience-card > .experience-index,
@@ -1202,7 +1203,13 @@ button {
   z-index: 20;
   opacity: 1;
   filter: saturate(1.08) brightness(1.06);
-  transition: transform 0.12s ease-out, opacity 0.4s ease, filter 0.4s ease;
+  transition: transform 0.18s ease-out, opacity 0.4s ease, filter 0.4s ease;
+}
+
+.experience-card.is-focused::after {
+  position: absolute;
+  inset: -3%;
+  content: "";
 }
 
 .experience-stage.is-scattered .experience-card.is-focused:nth-child(1),
@@ -1232,6 +1239,49 @@ button {
 
 .experience-card.is-accent {
   background: transparent;
+}
+
+.experience-card.is-modal-source {
+  z-index: 40;
+  opacity: 1;
+  filter: saturate(1.08) brightness(1.08);
+}
+
+.company-detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 56px);
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, background 220ms ease;
+}
+
+.company-detail-modal.is-open {
+  background: rgba(0, 0, 0, 0.68);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.company-detail-modal img {
+  display: block;
+  width: auto;
+  height: min(700px, 86vh);
+  max-width: 92vw;
+  object-fit: contain;
+  filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.62));
+  opacity: 0;
+  transform: scale(0.9);
+  transition: transform 260ms cubic-bezier(0.33, 1, 0.68, 1), opacity 200ms ease;
+  pointer-events: none;
+}
+
+.company-detail-modal.is-open img {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .experience-index {

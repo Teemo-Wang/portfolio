@@ -337,30 +337,32 @@ a {
 }
 
 .carousel-dots button {
-  width: 22px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.46);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.22);
   padding: 0;
   transition:
     background 180ms ease,
     box-shadow 180ms ease,
-    transform 180ms ease;
+    transform 180ms ease,
+    width 180ms ease;
 }
 
 .carousel-dots button:hover,
 .carousel-dots button:focus-visible {
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.34);
   outline: none;
-  transform: scaleX(1.2);
+  transform: scale(1.08);
 }
 
 .carousel-dots .active {
+  width: 22px;
   background: #fff;
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.62);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.58);
 }
 
 .positive {
