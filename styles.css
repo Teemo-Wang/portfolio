@@ -804,6 +804,8 @@ button {
 }
 
 .intro-card {
+  position: relative;
+  top: -30px;
   padding: 42px;
   border: 0;
   background: transparent;
