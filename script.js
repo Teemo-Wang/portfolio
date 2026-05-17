@@ -26,6 +26,20 @@ if (heroLoopVideos.length) {
     video.currentTime = 0;
   };
 
+  const loadDeferredVideo = (video) => {
+    const deferredSources = [...video.querySelectorAll("source[data-src]")];
+
+    if (!deferredSources.length) {
+      return;
+    }
+
+    deferredSources.forEach((source) => {
+      source.src = source.dataset.src;
+      source.removeAttribute("data-src");
+    });
+    video.load();
+  };
+
   const swapHeroVideo = () => {
     if (isHeroVideoSwapping || heroLoopVideos.length < 2) {
       return;
@@ -64,6 +78,17 @@ if (heroLoopVideos.length) {
 
     if (index === activeHeroVideoIndex) {
       playVideo(video);
+      video.addEventListener(
+        "canplay",
+        () => {
+          heroLoopVideos.forEach((entry, entryIndex) => {
+            if (entryIndex !== activeHeroVideoIndex) {
+              loadDeferredVideo(entry);
+            }
+          });
+        },
+        { once: true },
+      );
     } else {
       resetVideo(video);
     }

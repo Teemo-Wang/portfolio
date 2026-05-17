@@ -382,7 +382,7 @@ button {
   left: 50%;
   z-index: -1;
   width: 100vw;
-  background: #000;
+  background: #000 url("./sucai/hero-bg.jpg") center / cover no-repeat;
   content: "";
   transform: translateX(-50%);
 }
