@@ -58,7 +58,10 @@
 
       <main>
         <section class="hero reveal" id="home">
-          <video class="hero-video" autoplay muted loop playsinline aria-hidden="true" poster="./sucai/hero-bg.png">
+          <video class="hero-video is-active" autoplay muted playsinline preload="auto" aria-hidden="true" poster="./sucai/hero-bg.png" data-hero-loop-video>
+            <source src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
+          </video>
+          <video class="hero-video" muted playsinline preload="auto" aria-hidden="true" poster="./sucai/hero-bg.png" data-hero-loop-video>
             <source src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
           </video>
           <div class="hero-mark">
@@ -114,10 +117,16 @@
                 <img class="about-title-image" src="./sucai/about me.png" alt="About Me" />
               </h3>
               <p>
-                3年跨境用户增长营销设计经验，对不同国家及地区如欧美、中东、欧洲、东南亚等用户人群的偏好有清晰的认知；从初期调研到界面UI搭建、视觉制作、营销拓展、运营投放等多维度深度参与多个从0-1项目的建设及制作，且最终数据反馈正向
+                具备 6 年用户增长与营销设计经验，熟悉欧美、中东、欧洲、东南亚等全球化市场用户偏好。深度参与多个从 0-1 项目的调研、UI 搭建、视觉制作、营销延展与运营投放，并基于数据反馈持续优化转化表现。
               </p>
               <p>
-                熟练掌握动效、三维等表现形式，自研Lottie压缩工具，极大减小动效文件体积同时保持流畅度；擅长使用不同Ai工作流适配不同风格需求
+                擅长将动效、三维、AI 工作流应用于营销视觉与品牌资产建设，能够输出具备科技感、未来感和高传播性的 Web3 / Fintech 风格视觉方案。
+              </p>
+              <p>
+                熟悉 Lottie 动效规范，自研 Lottie 压缩工具，在保证流畅度的同时显著降低动效文件体积，提升线上加载效率。了解html、css等格式，高效与产品、前端对齐相应方案并实现落地。
+              </p>
+              <p>
+                具备较强的 AI 辅助创意生产与设计提效能力，可根据不同业务场景快速完成风格探索、KV 生成、素材延展与投放物料批量化产出。
               </p>
             </article>
 
@@ -264,12 +273,6 @@
                   <div class="work-kv-panel work-kv-panel-right work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv2">
                     <img src="./sucai/video/part2/KV2.png" alt="Brand Marketing key visual 2" />
                   </div>
-                  <div class="work-kv-panel work-kv-panel-hidden work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv3">
-                    <img src="./sucai/video/part2/KV1.png" alt="Brand Marketing key visual 3" />
-                  </div>
-                  <div class="work-kv-panel work-kv-panel-left work-kv-image" data-kv-panel data-detail-url="./work-detail.html?case=brand-kv4">
-                    <img src="./sucai/video/part2/KV2.png" alt="Brand Marketing key visual 4" />
-                  </div>
                   <button class="work-kv-nav work-kv-prev" type="button" aria-label="Previous Brand Marketing key visual"></button>
                   <button class="work-kv-nav work-kv-next" type="button" aria-label="Next Brand Marketing key visual"></button>
                 </div>
@@ -400,7 +403,7 @@
               <h3>Phone</h3>
               <p>+86 151 3886 3889</p>
             </article>
-            <article class="contact-tile glass-card">
+            <article class="contact-tile glass-card" data-wechat-trigger>
               <span class="tile-icon" aria-hidden="true">
                 <img src="./sucai/icon/wechat.png" alt="" />
               </span>

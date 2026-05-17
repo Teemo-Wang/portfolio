@@ -4,6 +4,73 @@ if ("scrollRestoration" in window.history) {
 
 const detailReturnScrollKey = "teemo-detail-return-scroll";
 
+const heroLoopVideos = [...document.querySelectorAll(".hero [data-hero-loop-video]")];
+
+if (heroLoopVideos.length > 1) {
+  let activeHeroVideoIndex = 0;
+  let isHeroVideoSwapping = false;
+  const loopLeadTime = 0.7;
+  const fadeDuration = 420;
+
+  const playVideo = (video) => {
+    const playPromise = video.play();
+
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  };
+
+  const resetVideo = (video) => {
+    video.pause();
+    video.currentTime = 0;
+  };
+
+  const swapHeroVideo = () => {
+    if (isHeroVideoSwapping) {
+      return;
+    }
+
+    isHeroVideoSwapping = true;
+    const currentVideo = heroLoopVideos[activeHeroVideoIndex];
+    const nextHeroVideoIndex = (activeHeroVideoIndex + 1) % heroLoopVideos.length;
+    const nextVideo = heroLoopVideos[nextHeroVideoIndex];
+
+    nextVideo.currentTime = 0;
+    playVideo(nextVideo);
+    nextVideo.classList.add("is-active");
+    currentVideo.classList.remove("is-active");
+
+    window.setTimeout(() => {
+      resetVideo(currentVideo);
+      activeHeroVideoIndex = nextHeroVideoIndex;
+      isHeroVideoSwapping = false;
+    }, fadeDuration);
+  };
+
+  const watchHeroVideo = () => {
+    const currentVideo = heroLoopVideos[activeHeroVideoIndex];
+
+    if (currentVideo.duration && currentVideo.duration - currentVideo.currentTime <= loopLeadTime) {
+      swapHeroVideo();
+    }
+
+    window.requestAnimationFrame(watchHeroVideo);
+  };
+
+  heroLoopVideos.forEach((video, index) => {
+    video.loop = false;
+    video.muted = true;
+
+    if (index === activeHeroVideoIndex) {
+      playVideo(video);
+    } else {
+      resetVideo(video);
+    }
+  });
+
+  window.requestAnimationFrame(watchHeroVideo);
+}
+
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -176,6 +243,8 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
   const workItem = carousel.closest(".work-item");
   const prevButton = carousel.querySelector(".work-kv-prev");
   const nextButton = carousel.querySelector(".work-kv-next");
+  let autoTimer = null;
+  let wasExpanded = false;
   let index = activeReturnCase
     ? panels.findIndex((panel) => panel.dataset.detailUrl && panel.dataset.detailUrl.includes(`case=${activeReturnCase}`))
     : 0;
@@ -184,9 +253,22 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
     index = 0;
   }
 
-  if (panels.length < 3) {
+  if (panels.length < 2) {
     return;
   }
+
+  const clearAutoTimer = () => {
+    window.clearTimeout(autoTimer);
+    autoTimer = null;
+  };
+
+  const scheduleAutoNext = (delay = 6000) => {
+    clearAutoTimer();
+    autoTimer = window.setTimeout(() => {
+      next(true);
+      scheduleAutoNext();
+    }, delay);
+  };
 
   const render = () => {
     const isExpanded = workItem && workItem.classList.contains("is-active");
@@ -198,7 +280,7 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
 
       panel.classList.toggle("work-kv-panel-center", offset === 0);
       panel.classList.toggle("work-kv-panel-right", offset === 1);
-      panel.classList.toggle("work-kv-panel-left", offset === panels.length - 1);
+      panel.classList.toggle("work-kv-panel-left", panels.length > 2 && offset === panels.length - 1);
       panel.classList.toggle("work-kv-panel-hidden", offset > 1 && offset < panels.length - 1);
 
       if (!video) {
@@ -214,7 +296,7 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
     });
   };
 
-  const next = () => {
+  const next = (isAuto = false) => {
     if (!workItem || !workItem.classList.contains("is-active")) {
       render();
       return;
@@ -222,9 +304,13 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
 
     index = (index + 1) % panels.length;
     render();
+
+    if (!isAuto) {
+      scheduleAutoNext();
+    }
   };
 
-  const prev = () => {
+  const prev = (isAuto = false) => {
     if (!workItem || !workItem.classList.contains("is-active")) {
       render();
       return;
@@ -232,6 +318,10 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
 
     index = (index - 1 + panels.length) % panels.length;
     render();
+
+    if (!isAuto) {
+      scheduleAutoNext();
+    }
   };
 
   panels.forEach((panel) => {
@@ -310,9 +400,31 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
     });
   }
 
-  document.addEventListener("workStateChange", render);
-  window.setInterval(next, 6000);
+  const syncCarouselState = () => {
+    const isExpanded = workItem && workItem.classList.contains("is-active");
+
+    if (!isExpanded) {
+      clearAutoTimer();
+      wasExpanded = false;
+      index = 0;
+      render();
+      return;
+    }
+
+    if (!wasExpanded) {
+      wasExpanded = true;
+      index = 0;
+      render();
+      scheduleAutoNext(8000);
+      return;
+    }
+
+    render();
+  };
+
+  document.addEventListener("workStateChange", syncCarouselState);
   render();
+  syncCarouselState();
 });
 
 const carousels = [...document.querySelectorAll("[data-carousel]")];
@@ -342,6 +454,59 @@ carousels.forEach((carousel) => {
 });
 
 const experienceStage = document.querySelector(".experience-stage");
+
+const wechatTriggers = [...document.querySelectorAll("[data-wechat-trigger]")];
+
+if (wechatTriggers.length) {
+  const wechatModal = document.createElement("div");
+  const wechatImage = document.createElement("img");
+
+  wechatModal.className = "wechat-modal";
+  wechatModal.setAttribute("aria-hidden", "true");
+  wechatImage.src = "./sucai/wechat.jpg";
+  wechatImage.alt = "WeChat QR code";
+  wechatModal.append(wechatImage);
+  document.body.append(wechatModal);
+
+  const openWechatModal = () => {
+    wechatModal.classList.add("is-open");
+    wechatModal.setAttribute("aria-hidden", "false");
+  };
+
+  const closeWechatModal = () => {
+    wechatModal.classList.remove("is-open");
+    wechatModal.setAttribute("aria-hidden", "true");
+  };
+
+  wechatTriggers.forEach((wechatTrigger) => {
+    if (wechatTrigger.tagName !== "BUTTON") {
+      wechatTrigger.setAttribute("role", "button");
+      wechatTrigger.setAttribute("tabindex", "0");
+    }
+
+    wechatTrigger.setAttribute("aria-label", "Open WeChat QR code");
+    wechatTrigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openWechatModal();
+    });
+    wechatTrigger.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openWechatModal();
+    });
+  });
+
+  wechatModal.addEventListener("click", closeWechatModal);
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && wechatModal.classList.contains("is-open")) {
+      closeWechatModal();
+    }
+  });
+}
 
 if (experienceStage) {
   const experienceCards = [...experienceStage.querySelectorAll(".experience-card")];

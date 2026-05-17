@@ -50,7 +50,7 @@ if (heroVideos.length > 1) {
     window.clearInterval(heroCarouselTimer);
     heroCarouselTimer = window.setInterval(() => {
       showHeroSlide(heroSlideIndex + 1);
-    }, 5000);
+    }, 2000);
   };
 
   showHeroSlide(0);

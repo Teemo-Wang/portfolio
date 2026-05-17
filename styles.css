@@ -397,7 +397,14 @@ button {
   height: calc(100% + 28px);
   object-fit: cover;
   object-position: center;
+  opacity: 0;
   transform: translateX(-50%);
+  transition: opacity 360ms linear;
+  will-change: opacity;
+}
+
+.hero-video.is-active {
+  opacity: 1;
 }
 
 .hero::after {
@@ -612,11 +619,13 @@ button {
 .experience-chip {
   display: flex;
   justify-content: center;
+  margin: 34px 0 46px;
 }
 
 .experience-chip img {
   display: block;
-  width: 240px;
+  width: 258px;
+  max-width: 80vw;
   height: auto;
   object-fit: contain;
 }
@@ -846,6 +855,8 @@ button {
 
 .about-title {
   display: block;
+  margin-bottom: 28px;
+  transform: translateY(-22px);
 }
 
 .about-title-image {
@@ -2366,7 +2377,7 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   max-width: 980px;
-  margin: clamp(74px, 8vh, 110px) auto 0;
+  margin: clamp(98px, 10vh, 138px) auto 0;
 }
 
 .detail-body {
@@ -2596,7 +2607,7 @@ button {
   display: block;
   height: auto;
   max-height: none;
-  border-radius: 50px;
+  border-radius: 30px;
   object-fit: contain;
   background: transparent;
   pointer-events: none;
@@ -2636,16 +2647,70 @@ button {
 }
 
 .contact-tile {
-  padding: 26px;
+  padding: 20px 24px;
+}
+
+.contact-tile h3 {
+  margin: 10px 0 6px;
+}
+
+.contact-tile p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.contact-tile[data-wechat-trigger] {
+  cursor: pointer;
+}
+
+.contact-tile[data-wechat-trigger]:focus-visible {
+  outline: 2px solid rgba(130, 233, 255, 0.9);
+  outline-offset: 6px;
+}
+
+.wechat-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, background 220ms ease;
+}
+
+.wechat-modal.is-open {
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wechat-modal img {
+  display: block;
+  width: min(420px, 82vw);
+  height: auto;
+  max-height: 86vh;
+  border-radius: 24px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.56);
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 220ms ease, transform 260ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.wechat-modal.is-open img {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .tile-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
     rgba(255, 255, 255, 0.04);
@@ -2655,8 +2720,8 @@ button {
 
 .tile-icon img {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 21px;
+  height: 21px;
   filter: brightness(0) invert(1);
   object-fit: contain;
 }
@@ -3081,9 +3146,11 @@ button {
     display: none;
   }
 
-  .work-kv-main {
-    width: 100%;
-    aspect-ratio: 1.18 / 1;
+  .work-kv-main,
+  .work-kv-panel {
+    width: 86%;
+    aspect-ratio: 2.1 / 1;
+    border-radius: 28px;
   }
 
   .work-kv-back {

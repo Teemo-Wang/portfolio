@@ -128,8 +128,8 @@ const cases = {
           alt: "AIGC coin render process animation",
           style: {
             left: "56.3%",
-            top: "calc(43% - 119px)",
-            width: "17.2%",
+            top: "calc(43% - 100px)",
+            width: "200px",
           },
         },
         {
@@ -146,8 +146,8 @@ const cases = {
           alt: "AIGC render process animation",
           style: {
             left: "calc(11.5% - 40px)",
-            top: "calc(43% - 90px)",
-            width: "15%",
+            top: "calc(43% - 100px)",
+            width: "200px",
           },
         },
       ],
