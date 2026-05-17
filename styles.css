@@ -382,7 +382,7 @@ button {
   left: 50%;
   z-index: -1;
   width: 100vw;
-  background: #000 url("./sucai/hero-bg.jpg") center / cover no-repeat;
+  background: #000;
   content: "";
   transform: translateX(-50%);
 }
@@ -399,11 +399,11 @@ button {
   object-position: center;
   opacity: 0;
   transform: translateX(-50%);
-  transition: none;
+  transition: opacity 360ms linear;
   will-change: opacity;
 }
 
-.hero-video.is-active.is-ready {
+.hero-video.is-active {
   opacity: 1;
 }
 
