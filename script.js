@@ -11,7 +11,12 @@ const heroLoopVideos = [...document.querySelectorAll(".hero [data-hero-loop-vide
 if (heroLoopVideos.length) {
   let activeHeroVideoIndex = 0;
   let isHeroVideoSwapping = false;
-  const loopLeadTime = 0.12;
+  let isHeroVideoStarted = false;
+  const loopLeadTime = 0.28;
+  const readyToPaintState = 2;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const networkInfo = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const shouldSkipHeroVideo = prefersReducedMotion || networkInfo?.saveData || /(^|-)2g$/.test(networkInfo?.effectiveType || "");
 
   const playVideo = (video) => {
     const playPromise = video.play();
@@ -24,13 +29,14 @@ if (heroLoopVideos.length) {
   const resetVideo = (video) => {
     video.pause();
     video.currentTime = 0;
+    video.classList.remove("is-ready");
   };
 
   const loadDeferredVideo = (video) => {
     const deferredSources = [...video.querySelectorAll("source[data-src]")];
 
     if (!deferredSources.length) {
-      return;
+      return false;
     }
 
     deferredSources.forEach((source) => {
@@ -38,6 +44,7 @@ if (heroLoopVideos.length) {
       source.removeAttribute("data-src");
     });
     video.load();
+    return true;
   };
 
   const swapHeroVideo = () => {
@@ -45,13 +52,20 @@ if (heroLoopVideos.length) {
       return;
     }
 
-    isHeroVideoSwapping = true;
     const currentVideo = heroLoopVideos[activeHeroVideoIndex];
     const nextHeroVideoIndex = (activeHeroVideoIndex + 1) % heroLoopVideos.length;
     const nextVideo = heroLoopVideos[nextHeroVideoIndex];
 
+    if (nextVideo.readyState < readyToPaintState) {
+      currentVideo.currentTime = 0;
+      playVideo(currentVideo);
+      return;
+    }
+
+    isHeroVideoSwapping = true;
     nextVideo.currentTime = 0;
     playVideo(nextVideo);
+    nextVideo.classList.add("is-ready");
     nextVideo.classList.add("is-active");
     currentVideo.classList.remove("is-active");
 
@@ -72,28 +86,59 @@ if (heroLoopVideos.length) {
     window.requestAnimationFrame(watchHeroVideo);
   };
 
+  const scheduleHeroVideoLoad = () => {
+    if (isHeroVideoStarted || shouldSkipHeroVideo) {
+      return;
+    }
+
+    isHeroVideoStarted = true;
+    const activeVideo = heroLoopVideos[activeHeroVideoIndex];
+
+    const prepareStandbyVideos = () => {
+      heroLoopVideos.forEach((entry, entryIndex) => {
+        if (entryIndex !== activeHeroVideoIndex) {
+          loadDeferredVideo(entry);
+        }
+      });
+    };
+
+    activeVideo.addEventListener(
+      "canplay",
+      () => {
+        activeVideo.classList.add("is-ready");
+        playVideo(activeVideo);
+        prepareStandbyVideos();
+      },
+      { once: true },
+    );
+    activeVideo.addEventListener(
+      "playing",
+      () => {
+        activeVideo.classList.add("is-ready");
+        activeVideo.removeAttribute("poster");
+      },
+      { once: true },
+    );
+    loadDeferredVideo(activeVideo);
+    prepareStandbyVideos();
+  };
+
+  const queueHeroVideoLoad = () => {
+    window.setTimeout(scheduleHeroVideoLoad, 0);
+  };
+
   heroLoopVideos.forEach((video, index) => {
     video.loop = false;
     video.muted = true;
 
     if (index === activeHeroVideoIndex) {
-      playVideo(video);
-      video.addEventListener(
-        "canplay",
-        () => {
-          heroLoopVideos.forEach((entry, entryIndex) => {
-            if (entryIndex !== activeHeroVideoIndex) {
-              loadDeferredVideo(entry);
-            }
-          });
-        },
-        { once: true },
-      );
+      video.pause();
     } else {
       resetVideo(video);
     }
   });
 
+  queueHeroVideoLoad();
   window.requestAnimationFrame(watchHeroVideo);
 }
 

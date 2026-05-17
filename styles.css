@@ -403,7 +403,7 @@ button {
   will-change: opacity;
 }
 
-.hero-video.is-active {
+.hero-video.is-active.is-ready {
   opacity: 1;
 }
 
