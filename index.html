@@ -25,6 +25,8 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="./sucai/hero-bg.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="./sucai/title.png" as="image" fetchpriority="high" />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700;800&display=swap"
       rel="stylesheet"
@@ -58,8 +60,8 @@
 
       <main>
         <section class="hero reveal" id="home">
-          <video class="hero-video is-active" autoplay muted playsinline preload="auto" aria-hidden="true" poster="./sucai/hero-bg.jpg" data-hero-loop-video>
-            <source src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
+          <video class="hero-video is-active" autoplay muted playsinline preload="none" aria-hidden="true" poster="./sucai/hero-bg.jpg" data-hero-loop-video>
+            <source data-src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
           </video>
           <video class="hero-video" muted playsinline preload="none" aria-hidden="true" poster="./sucai/hero-bg.jpg" data-hero-loop-video>
             <source data-src="./sucai/hero-kv-bitcoin.mp4" type="video/mp4" />
@@ -67,7 +69,7 @@
           <div class="hero-mark">
             <p class="eyebrow">Portfolio 2026</p>
             <div class="hero-signature">
-              <img class="hero-signature-image" src="./sucai/title.png" alt="Portfolio By Teemo Wang" />
+              <img class="hero-signature-image" src="./sucai/title.png" alt="Portfolio By Teemo Wang" loading="eager" decoding="async" fetchpriority="high" />
             </div>
           </div>
 
