@@ -114,7 +114,7 @@ const cases = {
     type: "AI Workflow Demonstration",
     summary: "AIGC 辅助 Web3 活动视觉资产生成项目，展示了从硬币资产生成、材质探索、三维组合到最终 KV 应用的完整流程。通过 AI 与 3D 工作流结合，提升前期概念验证、视觉方向测试和后期批量延展的效率。",
     mediaType: "gallery",
-    heroVideo: "./sucai/video/Part3/3-kv1_batch.mp4",
+    heroVideo: "./sucai/video/Part3/KV1.mp4",
     src: [
       "./sucai/KV/KV3/1/1.png",
       "./sucai/KV/KV3/1/2.png",
@@ -128,7 +128,7 @@ const cases = {
           alt: "AIGC coin render process animation",
           style: {
             left: "56.3%",
-            top: "calc(43% - 100px)",
+            top: "calc(43% - 40px)",
             width: "200px",
           },
         },
@@ -137,7 +137,7 @@ const cases = {
           alt: "AIGC coin render glow",
           style: {
             left: "74.2%",
-            top: "calc(43% - 119px)",
+            top: "calc(43% - 49px)",
             width: "17.2%",
           },
         },
@@ -145,8 +145,8 @@ const cases = {
           src: "./sucai/KV/KV3/1/合成.gif",
           alt: "AIGC render process animation",
           style: {
-            left: "calc(11.5% - 40px)",
-            top: "calc(43% - 100px)",
+            left: "calc(11.5% - 50px)",
+            top: "calc(43% - 40px)",
             width: "200px",
           },
         },

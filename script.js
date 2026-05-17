@@ -3,6 +3,8 @@ if ("scrollRestoration" in window.history) {
 }
 
 const detailReturnScrollKey = "teemo-detail-return-scroll";
+const detailReturnCaseKey = "teemo-detail-return-case";
+const workKvAutoDelay = 4000;
 
 const heroLoopVideos = [...document.querySelectorAll(".hero [data-hero-loop-video]")];
 
@@ -211,9 +213,10 @@ workItems.forEach((item) => {
 const returnParams = new URLSearchParams(window.location.search);
 const returnCase = returnParams.get("case");
 const storedReturnScroll = sessionStorage.getItem(detailReturnScrollKey);
+const storedReturnCase = sessionStorage.getItem(detailReturnCaseKey);
 const returnScroll = storedReturnScroll === null ? NaN : Number(storedReturnScroll);
-const shouldRestoreDetailReturn = returnParams.get("check") === "2" && Number.isFinite(returnScroll);
-const activeReturnCase = shouldRestoreDetailReturn ? returnCase : null;
+const shouldRestoreDetailReturn = (returnParams.get("check") === "2" || storedReturnCase) && Number.isFinite(returnScroll);
+const activeReturnCase = shouldRestoreDetailReturn ? returnCase || storedReturnCase : null;
 
 if (shouldRestoreDetailReturn && workItems[0]) {
   const returnPanel = activeReturnCase
@@ -245,6 +248,7 @@ if (shouldRestoreDetailReturn && workItems[0]) {
   window.setTimeout(restoreScroll, 80);
   window.setTimeout(() => {
     sessionStorage.removeItem(detailReturnScrollKey);
+    sessionStorage.removeItem(detailReturnCaseKey);
     document.documentElement.classList.remove("is-restoring-detail-scroll");
     document.documentElement.style.scrollBehavior = "";
   }, 120);
@@ -274,7 +278,7 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
     autoTimer = null;
   };
 
-  const scheduleAutoNext = (delay = 6000) => {
+  const scheduleAutoNext = (delay = workKvAutoDelay) => {
     clearAutoTimer();
     autoTimer = window.setTimeout(() => {
       next(true);
@@ -355,6 +359,7 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
       event.preventDefault();
       event.stopPropagation();
       sessionStorage.setItem(detailReturnScrollKey, String(window.scrollY));
+      sessionStorage.setItem(detailReturnCaseKey, new URL(detailUrl, window.location.href).searchParams.get("case") || "");
       window.location.href = detailUrl;
     };
 
@@ -387,6 +392,7 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
 
       if (clickedPanel.classList.contains("work-kv-panel-center") && clickedPanel.dataset.detailUrl) {
         sessionStorage.setItem(detailReturnScrollKey, String(window.scrollY));
+        sessionStorage.setItem(detailReturnCaseKey, new URL(clickedPanel.dataset.detailUrl, window.location.href).searchParams.get("case") || "");
         window.location.href = clickedPanel.dataset.detailUrl;
         return;
       }
@@ -425,9 +431,8 @@ document.querySelectorAll("[data-kv-carousel]").forEach((carousel) => {
 
     if (!wasExpanded) {
       wasExpanded = true;
-      index = 0;
       render();
-      scheduleAutoNext(8000);
+      scheduleAutoNext();
       return;
     }
 

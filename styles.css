@@ -1315,7 +1315,7 @@ button {
 .work-item {
   position: relative;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 5px;
   padding: 0 24px;
   height: clamp(208px, 20vh, 240px);
   cursor: pointer;
