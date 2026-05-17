@@ -77,10 +77,10 @@ if (heroLoopVideos.length) {
     video.muted = true;
 
     if (index === activeHeroVideoIndex) {
+      playVideo(video);
       video.addEventListener(
         "canplay",
         () => {
-          playVideo(video);
           heroLoopVideos.forEach((entry, entryIndex) => {
             if (entryIndex !== activeHeroVideoIndex) {
               loadDeferredVideo(entry);
@@ -92,14 +92,6 @@ if (heroLoopVideos.length) {
     } else {
       resetVideo(video);
     }
-  });
-
-  const startHeroVideoLoading = () => {
-    loadDeferredVideo(heroLoopVideos[activeHeroVideoIndex]);
-  };
-
-  window.requestAnimationFrame(() => {
-    window.setTimeout(startHeroVideoLoading, 120);
   });
 
   window.requestAnimationFrame(watchHeroVideo);
