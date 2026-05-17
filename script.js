@@ -63,18 +63,6 @@ if (heroLoopVideos.length > 1) {
     video.loop = false;
     video.muted = true;
 
-    const markVideoReady = () => {
-      video.classList.add("is-ready");
-    };
-
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      markVideoReady();
-    } else {
-      video.addEventListener("loadeddata", markVideoReady, { once: true });
-      video.addEventListener("canplay", markVideoReady, { once: true });
-      video.addEventListener("playing", markVideoReady, { once: true });
-    }
-
     if (index === activeHeroVideoIndex) {
       playVideo(video);
     } else {
