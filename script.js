@@ -8,11 +8,10 @@ const workKvAutoDelay = 4000;
 
 const heroLoopVideos = [...document.querySelectorAll(".hero [data-hero-loop-video]")];
 
-if (heroLoopVideos.length > 1) {
+if (heroLoopVideos.length) {
   let activeHeroVideoIndex = 0;
   let isHeroVideoSwapping = false;
-  const loopLeadTime = 0.7;
-  const fadeDuration = 420;
+  const loopLeadTime = 0.12;
 
   const playVideo = (video) => {
     const playPromise = video.play();
@@ -28,7 +27,7 @@ if (heroLoopVideos.length > 1) {
   };
 
   const swapHeroVideo = () => {
-    if (isHeroVideoSwapping) {
+    if (isHeroVideoSwapping || heroLoopVideos.length < 2) {
       return;
     }
 
@@ -46,7 +45,7 @@ if (heroLoopVideos.length > 1) {
       resetVideo(currentVideo);
       activeHeroVideoIndex = nextHeroVideoIndex;
       isHeroVideoSwapping = false;
-    }, fadeDuration);
+    }, 60);
   };
 
   const watchHeroVideo = () => {

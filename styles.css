@@ -399,7 +399,7 @@ button {
   object-position: center;
   opacity: 0;
   transform: translateX(-50%);
-  transition: opacity 360ms linear;
+  transition: none;
   will-change: opacity;
 }
 
